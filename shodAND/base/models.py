@@ -26,6 +26,7 @@ class Port(models.Model):
             MinValueValidator(1)
         ]
     )
+    privileged = models.BooleanField()
     creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
     modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
@@ -34,6 +35,10 @@ class Port(models.Model):
 
     def __repr__(self):
         return f"<Port {self.port}>"
+
+    def save(self, *args, **kwargs):
+        self.privileged = False
+        super(Scan, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['port']
