@@ -9,7 +9,7 @@ class HostSerializer(serializers.HyperlinkedModelSerializer):
 class PortSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Port
-        fields = ('port', 'creation_date', 'modification_date')
+        fields = ('port', 'label', 'privileged', 'protocol', 'creation_date', 'modification_date')
 
 class ScanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
