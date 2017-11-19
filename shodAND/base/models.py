@@ -46,6 +46,7 @@ class Port(ShodANDModel):
         ]
     )
     privileged = models.BooleanField(default=False, editable=False)
+    label = models.CharField(max_length=200, editable=False)
 
     def __str__(self):
         return f"{self.port}"
