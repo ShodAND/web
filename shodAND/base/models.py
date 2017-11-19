@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
+from .utils import ports
+
 class ShodANDModel(models.Model):
     """
     Default ShodAND Model
@@ -46,6 +48,7 @@ class Port(ShodANDModel):
         ]
     )
     privileged = models.BooleanField(default=False, editable=False)
+    label = models.CharField(max_length=200, default="", editable=False)
 
     def __str__(self):
         return f"{self.port}"
@@ -54,7 +57,17 @@ class Port(ShodANDModel):
         return f"<Port {self.port}>"
 
     def save(self, *args, **kwargs):
+        # Assign privileged flag
         self.privileged = True if self.port < 1024 else False
+
+        # Try to assign label from common_ports
+        try:
+            if str(self.port) in ports.common_ports:
+                if "description" in ports.common_ports[str(self.port)]:
+                    self.label = ports.common_ports[str(self.port)]['description']
+        except:
+            pass
+
         super(Port, self).save(*args, **kwargs)
 
     class Meta:
