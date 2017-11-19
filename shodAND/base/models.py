@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 from .utils import ports
+from base import settings as base_settings  
 
 class ShodANDModel(models.Model):
     """
@@ -40,11 +41,6 @@ class Host(ShodANDModel):
 
 
 class Port(ShodANDModel):
-    AVAILABLE_PROTOCOLS = (
-        ('tcp', 'TCP'),
-        ('udp', 'UDP'),
-    )
-
     port = models.IntegerField(
         unique=True,
         validators=[
@@ -56,7 +52,7 @@ class Port(ShodANDModel):
     label = models.CharField(max_length=200, default="", editable=False)
     protocol = models.CharField(
         max_length=20,
-        choices=AVAILABLE_PROTOCOLS,
+        choices=base_settings.AVAILABLE_PROTOCOLS,
         default="tcp",
     )
 
