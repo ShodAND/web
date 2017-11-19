@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Host, Port
-from .serializers import HostSerializer, PortSerializer
+from .models import Host, Port, Scan
+from .serializers import HostSerializer, PortSerializer, ScanSerializer
 
 class HostAPI(viewsets.ModelViewSet):
     """
@@ -16,3 +16,10 @@ class PortAPI(viewsets.ModelViewSet):
     """
     queryset = Port.objects.all().order_by('-creation_date')
     serializer_class = PortSerializer
+
+class ScanAPI(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Scan.objects.all().order_by('-creation_date')
+    serializer_class = ScanSerializer
