@@ -57,11 +57,16 @@ class Port(ShodANDModel):
         return f"<Port {self.port}>"
 
     def save(self, *args, **kwargs):
+        # Assign privileged flag
         self.privileged = True if self.port < 1024 else False
 
-        if str(self.port) in ports.common_ports:
-            if "description" in ports.common_ports[str(self.port)]:
-                self.label = ports.common_ports[str(self.port)]['description']
+        # Try to assign label from common_ports
+        try:
+            if str(self.port) in ports.common_ports:
+                if "description" in ports.common_ports[str(self.port)]:
+                    self.label = ports.common_ports[str(self.port)]['description']
+        except:
+            pass
 
         super(Port, self).save(*args, **kwargs)
 
