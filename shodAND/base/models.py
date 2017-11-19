@@ -1,10 +1,11 @@
 from django.db import models
+import datetime
 
 class Host(models.Model):
     hostname = models.CharField(max_length=200)
     ip = models.CharField(max_length=200, unique=True)
-    creation_date = models.DateTimeField('date created')
-    modification_date = models.DateTimeField('date modified')
+    creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
+    modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.ip}"
@@ -18,8 +19,8 @@ class Host(models.Model):
 
 class Port(models.Model):
     port = models.IntegerField(unique=True)
-    creation_date = models.DateTimeField('date created')
-    modification_date = models.DateTimeField('date modified')
+    creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
+    modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.port}"
@@ -31,12 +32,11 @@ class Port(models.Model):
         ordering = ['port']
 
 
-
 class Scan(models.Model):
     host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
-    creation_date = models.DateTimeField('date created')
-    modification_date = models.DateTimeField('date modified')
+    creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
+    modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.host} [{self.ports}]"
