@@ -21,6 +21,7 @@ from base import api
 api_router = routers.DefaultRouter()
 api_router.register(r'hosts', api.HostAPI)
 api_router.register(r'ports', api.PortAPI)
+api_router.register(r'scans', api.ScanAPI)
 
 urlpatterns = [
     url(r'^api/v1/', include(api_router.urls)),
