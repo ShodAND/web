@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 from .utils import ports
+from base import settings as base_settings  
 
 class ShodANDModel(models.Model):
     """
@@ -49,6 +50,11 @@ class Port(ShodANDModel):
     )
     privileged = models.BooleanField(default=False, editable=False)
     label = models.CharField(max_length=200, default="", editable=False)
+    protocol = models.CharField(
+        max_length=20,
+        choices=base_settings.AVAILABLE_PROTOCOLS,
+        default="tcp",
+    )
 
     def __str__(self):
         return f"{self.port}"
