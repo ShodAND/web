@@ -5,3 +5,8 @@ class Host(models.Model):
     ip = models.CharField(max_length=200)
     creation_date = models.DateTimeField('date created')
     modification_date = models.DateTimeField('date modified')
+
+class Port(models.Model):
+    port = models.IntegerField()
+    creation_date = models.DateTimeField('date created')
+    modification_date = models.DateTimeField('date modified')
