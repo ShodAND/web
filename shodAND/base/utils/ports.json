@@ -2,7 +2,7 @@
     "author": {
         "who": "https://github.com/mephux",
         "link": "https://github.com/mephux/ports.json",
-        "license": "https://github.com/mephux/ports.json/blob/master/LICENSE",
+        "license": "https://github.com/mephux/ports.json/blob/master/LICENSE"
     },
     "ports": {
         "0": {
