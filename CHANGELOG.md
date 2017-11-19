@@ -1,13 +1,13 @@
 ## 0.2.0 - API integration
 * Add default model and values #13
-* API pagination #16
+* Add API pagination #16
 See #14
 
 
 ## 0.1.0 - API integration
-* Integrate API
-* Provide humanized models representation
-* Add unique constraints
+* Integrate API #2
+* Provide humanized models representation #4
+* Add unique constraints #7
 See #3
 
 
