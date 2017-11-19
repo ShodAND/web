@@ -9,12 +9,19 @@ class ShodANDModel(models.Model):
     Integrate default fields:
     - creation_date
     - modification_date
+
+    Also update modification_date at every save()
     """
     creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
     modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
+    def save(self, *args, **kwargs):
+        self.modification_date = datetime.datetime.now()
+        super(ShodANDModel, self).save(*args, **kwargs)
+
     class Meta:
         abstract = True
+
 
 class Host(ShodANDModel):
     hostname = models.CharField(max_length=200)
