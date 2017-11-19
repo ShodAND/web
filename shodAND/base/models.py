@@ -40,6 +40,11 @@ class Host(ShodANDModel):
 
 
 class Port(ShodANDModel):
+    AVAILABLE_PROTOCOLS = (
+        ('tcp', 'TCP'),
+        ('udp', 'UDP'),
+    )
+
     port = models.IntegerField(
         unique=True,
         validators=[
@@ -49,6 +54,11 @@ class Port(ShodANDModel):
     )
     privileged = models.BooleanField(default=False, editable=False)
     label = models.CharField(max_length=200, default="", editable=False)
+    protocol = models.CharField(
+        max_length=20,
+        choices=AVAILABLE_PROTOCOLS,
+        default="tcp",
+    )
 
     def __str__(self):
         return f"{self.port}"
