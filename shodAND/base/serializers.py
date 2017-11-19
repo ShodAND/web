@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Host, Port
+from .models import Host, Port, Scan
 
 class HostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -10,3 +10,8 @@ class PortSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Port
         fields = ('port', 'creation_date', 'modification_date')
+
+class ScanSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Scan
+        fields = ('host', 'ports', 'creation_date', 'modification_date')
