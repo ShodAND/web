@@ -13,6 +13,6 @@ class Port(models.Model):
 
 class Scan(models.Model):
     host = models.ForeignKey(Host, on_delete=models.CASCADE)
-    ports = models.ManyToManyField(Port, on_delete=models.CASCADE)
+    ports = models.ManyToManyField(Port)
     creation_date = models.DateTimeField('date created')
     modification_date = models.DateTimeField('date modified')
