@@ -2,11 +2,23 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
-class Host(models.Model):
-    hostname = models.CharField(max_length=200)
-    ip = models.CharField(max_length=200, unique=True)
+class ShodANDModel(models.Model):
+    """
+    Default ShodAND Model
+
+    Integrate default fields:
+    - creation_date
+    - modification_date
+    """
     creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
     modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
+
+    class Meta:
+        abstract = True
+
+class Host(ShodANDModel):
+    hostname = models.CharField(max_length=200)
+    ip = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return f"{self.ip}"
@@ -18,7 +30,7 @@ class Host(models.Model):
         ordering = ['ip']
 
 
-class Port(models.Model):
+class Port(ShodANDModel):
     port = models.IntegerField(
         unique=True,
         validators=[
@@ -27,8 +39,6 @@ class Port(models.Model):
         ]
     )
     privileged = models.BooleanField(default=False, editable=False)
-    creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
-    modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.port}"
@@ -44,11 +54,9 @@ class Port(models.Model):
         ordering = ['port']
 
 
-class Scan(models.Model):
+class Scan(ShodANDModel):
     host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
-    creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
-    modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
     def __str__(self):
         return f"{self.host} [{self.ports}]"
