@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 class Host(models.Model):
@@ -18,7 +19,13 @@ class Host(models.Model):
 
 
 class Port(models.Model):
-    port = models.IntegerField(unique=True)
+    port = models.IntegerField(
+        unique=True,
+        validators=[
+            MaxValueValidator(65535),
+            MinValueValidator(1)
+        ]
+    )
     creation_date = models.DateTimeField('date created', default=datetime.datetime.now)
     modification_date = models.DateTimeField('date modified', default=datetime.datetime.now)
 
