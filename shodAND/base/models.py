@@ -2,7 +2,7 @@ from django.db import models
 
 class Host(models.Model):
     hostname = models.CharField(max_length=200)
-    ip = models.CharField(max_length=200)
+    ip = models.CharField(max_length=200, unique=True)
     creation_date = models.DateTimeField('date created')
     modification_date = models.DateTimeField('date modified')
 
@@ -12,8 +12,12 @@ class Host(models.Model):
     def __repr__(self):
         return f"<Host {self.ip}>"
 
+    class Meta:
+        ordering = ['ip']
+
+
 class Port(models.Model):
-    port = models.IntegerField()
+    port = models.IntegerField(unique=True)
     creation_date = models.DateTimeField('date created')
     modification_date = models.DateTimeField('date modified')
 
@@ -23,9 +27,13 @@ class Port(models.Model):
     def __repr__(self):
         return f"<Port {self.port}>"
 
+    class Meta:
+        ordering = ['port']
+
+
 
 class Scan(models.Model):
-    host = models.ForeignKey(Host, on_delete=models.CASCADE)
+    host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
     creation_date = models.DateTimeField('date created')
     modification_date = models.DateTimeField('date modified')
@@ -35,3 +43,6 @@ class Scan(models.Model):
 
     def __repr__(self):
         return f"<Scan {self.host} [{self.ports}]>"
+
+    class Meta:
+        ordering = ['host', 'creation_date']
