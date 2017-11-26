@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'material.theme.lightgreen',
+    'material.theme.deeppurple',
     'material',
     'material.admin',
     'django.contrib.admin',
