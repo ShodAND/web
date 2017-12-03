@@ -10,6 +10,7 @@ AVAILABLE_STATUS = (
 
 class ScanProcess(Process):
     """ Simple scan model """
+    command = models.CharField(max_length=150)
     result = models.CharField(max_length=150)
     status = models.CharField(
         max_length=20,
