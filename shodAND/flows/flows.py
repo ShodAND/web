@@ -27,7 +27,7 @@ class ScanFlow(Flow):
     )
 
     check_execution = (
-        flow.If(lambda activation: activation.process.state)
+        flow.If(lambda activation: activation.process.state == "done")
         .Then(this.execute)
         .Else(this.end)
     )
