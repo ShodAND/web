@@ -29,7 +29,8 @@ class ScanFlow(Flow):
     end = flow.End()
 
     def trigger_scan(self, activation):
-        messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
+        #messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
 
         print ("Triggering celery task")
-        #perform_scan.delay(activation)
+        perform_scan.delay(activation.process.command)
+        print ("Task dispatched!")
