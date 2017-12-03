@@ -1,5 +1,6 @@
 from django.db import models
 from viewflow.models import Process
+#from base.models import Scan
 
 AVAILABLE_STATUS = (
     ('todo', 'To do'),
@@ -8,6 +9,7 @@ AVAILABLE_STATUS = (
     ('done', 'Done'),
 )
 
+#class ScanProcess(Scan, Process):
 class ScanProcess(Process):
     """ Simple scan model """
     command = models.CharField(max_length=150)

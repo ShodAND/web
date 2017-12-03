@@ -36,6 +36,9 @@ class ScanFlow(Flow):
 
 
     wait_for_execution = (
+        flow.If(lambda activation: activation.process.state == "done")
+        .Then(this.check_execution)
+        .Else(this.check_execution)
     )
 
     execute = (
