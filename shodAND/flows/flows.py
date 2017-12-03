@@ -2,7 +2,10 @@ from viewflow import flow, frontend
 from viewflow.base import this, Flow
 from viewflow.flow.views import CreateProcessView, UpdateProcessView
 
+from django.contrib import messages
+
 from .models import ScanProcess
+from .tasks import perform_scan 
 
 @frontend.register
 class ScanFlow(Flow):
@@ -14,41 +17,19 @@ class ScanFlow(Flow):
             fields=["command"]
         ).Permission(
             auto_create=True
-        #).Assign(
-        #    lambda process: process.created_by
-        ).Next(this.planify)
+        ).Next(this.send)
     )
 
-    planify = (
-        flow.View(
-            UpdateProcessView,
-            fields=["state"]
-        ).Permission(
-            auto_create=True
-        ).Next(this.check_execution)
-    )
-
-    check_execution = (
-        flow.If(lambda activation: activation.process.state == "done")
-        .Then(this.execute)
-        .Else(this.wait_for_execution)
-    )
-
-
-    wait_for_execution = (
-        flow.If(lambda activation: activation.process.state == "done")
-        .Then(this.check_execution)
-        .Else(this.check_execution)
-    )
-
-    execute = (
+    send = (
         flow.Handler(
-            this.dispatch_job
+            this.trigger_scan
         ).Next(this.end)
     )
 
     end = flow.End()
 
-    def dispatch_job(self, activation):
-        print(activation.process.command, activation.process.state)
+    def trigger_scan(self, activation):
+        messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
 
+        print ("Triggering celery task")
+        #perform_scan.delay(activation)
