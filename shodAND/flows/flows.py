@@ -14,6 +14,8 @@ class ScanFlow(Flow):
             fields=["command"]
         ).Permission(
             auto_create=True
+        #).Assign(
+        #    lambda process: process.created_by
         ).Next(this.planify)
     )
 
@@ -29,7 +31,11 @@ class ScanFlow(Flow):
     check_execution = (
         flow.If(lambda activation: activation.process.state == "done")
         .Then(this.execute)
-        .Else(this.end)
+        .Else(this.wait_for_execution)
+    )
+
+
+    wait_for_execution = (
     )
 
     execute = (
