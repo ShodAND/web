@@ -12,7 +12,7 @@ class ScanProcess(Process):
     """ Simple scan model """
     command = models.CharField(max_length=150)
     result = models.CharField(max_length=150)
-    status = models.CharField(
+    state = models.CharField(
         max_length=20,
         choices=AVAILABLE_STATUS,
         default="todo",
