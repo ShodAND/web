@@ -1,16 +1,17 @@
-from viewflow import flow
+from viewflow import flow, frontend
 from viewflow.base import this, Flow
 from viewflow.flow.views import CreateProcessView, UpdateProcessView
 
 from .models import ScanProcess
 
-class HelloWorldFlow(Flow):
+@frontend.register
+class ScanFlow(Flow):
     process_class = ScanProcess
 
     start = (
         flow.Start(
             CreateProcessView,
-            fields=["text"]
+            fields=["command"]
         ).Permission(
             auto_create=True
         ).Next(this.planify)
@@ -19,14 +20,14 @@ class HelloWorldFlow(Flow):
     planify = (
         flow.View(
             UpdateProcessView,
-            fields=["status"]
+            fields=["state"]
         ).Permission(
             auto_create=True
         ).Next(this.check_execution)
     )
 
     check_execution = (
-        flow.If(lambda activation: activation.process.status)
+        flow.If(lambda activation: activation.process.state)
         .Then(this.execute)
         .Else(this.end)
     )
@@ -40,5 +41,5 @@ class HelloWorldFlow(Flow):
     end = flow.End()
 
     def dispatch_job(self, activation):
-        print(activation.process.command)
+        print(activation.process.command, activation.process.state)
 
