@@ -84,11 +84,14 @@ class Scan(ShodANDModel):
     host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
 
+    def get_ports(self):
+        return ", ".join([str(port) for port in self.ports.all()])
+
     def __str__(self):
-        return f"{self.host} [{self.ports}]"
+        return f"{self.host} [{self.get_ports()}]"
 
     def __repr__(self):
-        return f"<Scan {self.host} [{self.ports}]>"
+        return f"<Scan {self.host} [{self.get_ports()}]>"
 
     class Meta:
         ordering = ['host', 'creation_date']
