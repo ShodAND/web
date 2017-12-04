@@ -14,7 +14,7 @@ class ScanFlow(Flow):
     start = (
         flow.Start(
             CreateProcessView,
-            fields=["command"]
+            fields=["host", "ports"]
         ).Permission(
             auto_create=True
         ).Next(this.send)
@@ -30,7 +30,5 @@ class ScanFlow(Flow):
 
     def trigger_scan(self, activation):
         #messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
-
-        print ("Triggering celery task")
-        perform_scan.delay(activation.process.command)
+        perform_scan.delay(activation.process.host, activation.process.ports)
         print ("Task dispatched!")
