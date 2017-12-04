@@ -1,14 +1,17 @@
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
-from viewflow.flow import flow_job
+from base.models import Scan
+
+import time
 
 logger = get_task_logger(__name__)
 
 @shared_task
-@flow_job
-def perform_scan(command):
+def perform_scan(host, ports):
     #assert 
-    logger.info(command)
-    print("job done! [{}]".format(command))
-    return "job done! [{}]".format(command)
+    new_scan = Scan(host=host, ports=ports)
+    time.sleep(5)
+    logger.info(host, ports)
+    print("job done! [{} {}]".format(host, ports))
+    return "job done! [{} {}]".format(host, ports)
