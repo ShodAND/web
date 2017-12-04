@@ -90,22 +90,14 @@ class Port(ShodANDModel):
 class Scan(ShodANDModel):
     host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
-
-    result = models.CharField(max_length=150)
     state = models.CharField(
         max_length=20,
         choices=AVAILABLE_STATUS,
         default="todo",
     )
     error = models.BooleanField(default=False)
-    result = models.CharField(max_length=150)
+    result = models.CharField(max_length=150, default="")
 
-    state = models.CharField(
-        max_length=20,
-        choices=AVAILABLE_STATUS,
-        default="todo",
-    )
-    error = models.BooleanField(default=False)
     def get_ports(self):
         return ", ".join([str(port) for port in self.ports.all()])
 
