@@ -1,6 +1,6 @@
 from django.db import models
 from viewflow.models import Process
-from base.models import Scan, Host, Port
+from base.models import Host, Port
 
 AVAILABLE_STATUS = (
     ('todo', 'To do'),
@@ -14,7 +14,7 @@ class ScanProcess(Process):
     """ Simple scan model """
 
     host = models.ForeignKey(Host, default=0)
-    command = models.CharField(max_length=150)
+    ports = models.ManyToManyField(Port)
 
     result = models.CharField(max_length=150)
     state = models.CharField(
