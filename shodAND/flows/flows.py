@@ -7,6 +7,10 @@ from django.contrib import messages
 from .models import ScanProcess
 from .tasks import perform_scan 
 
+from base.models import Scan, Host, Port
+
+
+
 @frontend.register
 class ScanFlow(Flow):
     process_class = ScanProcess
@@ -30,5 +34,14 @@ class ScanFlow(Flow):
 
     def trigger_scan(self, activation):
         #messages.success(self.request, 'We are generating your random users! Wait a moment and refresh this page.')
-        perform_scan.delay(activation.process.host, activation.process.ports)
+
+        host = activation.process.host
+        ports = activation.process.ports.all()
+
+        new_scan = Scan(host=host)
+        new_scan.save()
+        new_scan.ports.add(*ports)
+
+        perform_scan.delay(new_scan.id)
         print ("Task dispatched!")
+
