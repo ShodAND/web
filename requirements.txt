@@ -1,5 +1,4 @@
-Django
+django==1.11.8
 djangorestframework
 django-material
 django-viewflow
-celery
