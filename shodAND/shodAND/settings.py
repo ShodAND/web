@@ -35,8 +35,8 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Andorra'
-
-
+#CELERY_RESULT_BACKEND = 'django-cache'
+CELERY_RESULT_BACKEND = 'django-db'
 
 # Application definition
 
