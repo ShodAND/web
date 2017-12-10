@@ -3,3 +3,4 @@ djangorestframework
 django-material
 django-viewflow
 celery[redis]
+django-celery-results
