@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'viewflow.frontend',
     'flows',
     'base',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
