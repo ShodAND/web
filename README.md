@@ -22,6 +22,12 @@ $ cd shodAND
 $ celery -A shodAND worker -l info
 ```
 
+Start the scheduler with:
+```
+$ cd shodAND
+$ celery -A shodAND beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+```
+
 ### Credits
 
 - [Common ports JSON file](https://github.com/ShodAND/web/tree/master/shodAND/base/utils/ports.json) fetched from [here](https://raw.githubusercontent.com/mephux/ports.json/master/ports.lists.json)
