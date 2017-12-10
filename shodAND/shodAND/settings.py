@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'flows',
     'base',
     'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
