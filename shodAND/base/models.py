@@ -5,6 +5,13 @@ import datetime
 from .utils import ports
 from base import settings as base_settings  
 
+AVAILABLE_STATUS = (
+    ('todo', 'To do'),
+    ('pending', 'Pending'),
+    ('wip', 'Work in progress'),
+    ('done', 'Done'),
+)
+
 class ShodANDModel(models.Model):
     """
     Default ShodAND Model
@@ -83,12 +90,22 @@ class Port(ShodANDModel):
 class Scan(ShodANDModel):
     host = models.ForeignKey(Host, on_delete=models.CASCADE, unique_for_date="creation_date")
     ports = models.ManyToManyField(Port)
+    state = models.CharField(
+        max_length=20,
+        choices=AVAILABLE_STATUS,
+        default="todo",
+    )
+    error = models.BooleanField(default=False)
+    result = models.CharField(max_length=150, default="")
+
+    def get_ports(self):
+        return ", ".join([str(port) for port in self.ports.all()])
 
     def __str__(self):
-        return f"{self.host} [{self.ports}]"
+        return f"{self.host} [{self.get_ports()}]"
 
     def __repr__(self):
-        return f"<Scan {self.host} [{self.ports}]>"
+        return f"<Scan {self.host} [{self.get_ports()}]>"
 
     class Meta:
         ordering = ['host', 'creation_date']
